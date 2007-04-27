@@ -1,7 +1,7 @@
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
 Version:	2.0.4
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group:		System/Servers
 URL:		http://www.zonecheck.fr/
@@ -112,4 +112,3 @@ fi
 %defattr(-,root,root,0755)
 %config(noreplace) %{_sysconfdir}/httpd/conf/webapps.d/zonecheck.conf
 %{_libdir}/zonecheck/www
-
