@@ -1,7 +1,7 @@
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
 Version:	2.0.4
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPL
 Group:		System/Servers
 URL:		http://www.zonecheck.fr/
@@ -10,8 +10,8 @@ Patch0:		zonecheck-2.0.3-apache2_fix.diff
 BuildRequires:	ruby >= 1.8
 Requires:	ruby >= 1.8
 Requires(pre):	apache-conf >= 2.0.54
-Requires(pre):	apache-mpm-prefork >= 2.0.54
-Requires:	apache-mpm-prefork >= 2.0.54
+Requires(pre):	apache-mpm >= 2.0.54
+Requires:	apache-mpm >= 2.0.54
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/root-%{name}-%{version}
 
