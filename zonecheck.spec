@@ -13,6 +13,7 @@ Requires(pre):	apache-conf >= 2.0.54
 Requires(pre):	apache-mpm >= 2.0.54
 Requires:	apache-mpm >= 2.0.54
 BuildArch:	noarch
+BuildRoot:	%{_tmppath}/root-%{name}-%{version}
 
 %description
 ZoneCheck is intended to help solve DNS misconfigurations or
