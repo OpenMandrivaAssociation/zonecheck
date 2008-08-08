@@ -1,7 +1,7 @@
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
 Version:	2.0.4
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	GPL
 Group:		System/Servers
 URL:		http://www.zonecheck.fr/
