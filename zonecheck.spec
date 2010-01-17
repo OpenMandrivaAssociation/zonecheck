@@ -1,7 +1,7 @@
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
 Version:	2.0.4
-Release:	%mkrel 9
+Release:	%mkrel 10
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://www.zonecheck.fr/
@@ -9,7 +9,7 @@ Source0:	%{name}-%{version}.tar.bz2
 Patch0:		zonecheck-2.0.3-apache2_fix.diff
 BuildRequires:	ruby >= 1.8
 Requires:	ruby >= 1.8
-BuildRoot:	%{_tmppath}/root-%{name}-%{version}
+BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 ZoneCheck is intended to help solve DNS misconfigurations or
@@ -82,19 +82,17 @@ install -m0644 www/zonecheck.conf %{buildroot}%{_sysconfdir}/httpd/conf/webapps.
 rm -f %{buildroot}%{_libdir}/zonecheck/www/zonecheck.conf.in
 
 %post www
-if [ -f %{_var}/lock/subsys/httpd ]; then
-    %{_initrddir}/httpd restart 1>&2;
-fi
+%if %mdkversion < 201010
+%_post_webapp
+%endif
 
 %postun www
-if [ "$1" = "0" ]; then
-    if [ -f %{_var}/lock/subsys/httpd ]; then
-	%{_initrddir}/httpd restart 1>&2
-    fi
-fi
+%if %mdkversion < 201010
+%_postun_webapp
+%endif
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,0755)
