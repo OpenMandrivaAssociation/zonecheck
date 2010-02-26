@@ -1,11 +1,11 @@
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
-Version:	2.0.4
-Release:	%mkrel 10
+Version:	2.1.0
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://www.zonecheck.fr/
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://www.zonecheck.fr/download/src/%{name}-%{version}.tgz
 Patch0:		zonecheck-2.0.3-apache2_fix.diff
 BuildRequires:	ruby >= 1.8
 Requires:	ruby >= 1.8
@@ -39,7 +39,7 @@ Provide a web service interface for ZoneCheck.
 %build
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 ruby ./installer.rb common cli cgi configure \
     -DRUBY=%{_bindir}/ruby \
@@ -55,28 +55,18 @@ ruby ./installer.rb common cli cgi configure \
     -DCGIDIR=%{_libdir}/zonecheck/www/cgi-bin \
     -DWWWDIR=%{_libdir}/zonecheck/www
 
-case `uname` in
-	OSF1)
-ruby -p -i \
-	-e "\$_.gsub"\!"(/(<const\s+name\s*=\s*\"ping4\"\s+value\s*=\s*\")[^\"]*(\"\s*\/>)/, '\1/sbin/ping -n -q -t 5 -c 5 %s > /dev/null\2')" \
-	-e "\$_.gsub"\!"(/(<const\s+name\s*=\s*\"ping6\"\s+value\s*=\s*\")[^\"]*(\"\s*\/>)/, '\1/sbin/ping -n -q -t 5 -c 5 %s > /dev/null\2')" \
+perl -pi \
+	-e 's|name="ping4" value="[^"]+"|name="ping4" value="ping -n -q -w 5 -c 5 %s > /dev/null"|;' \
+	-e 's|name="ping6" value="[^"]+"|name="ping6" value="ping6 -n -q -w 5 -c 5 %s > /dev/null"|;' \
 	%{buildroot}%{_sysconfdir}/zonecheck/zc.conf
-	;;
-
-	*)
-ruby -p -i \
-	-e "\$_.gsub"\!"(/(<const\s+name\s*=\s*\"ping4\"\s+value\s*=\s*\")[^\"]*(\"\s*\/>)/, '\1/bin/ping -n -q -w 5 -c 5 %s > /dev/null\2')" \
-	-e "\$_.gsub"\!"(/(<const\s+name\s*=\s*\"ping6\"\s+value\s*=\s*\")[^\"]*(\"\s*\/>)/, '\1/usr/sbin/ping6 -n -q -w 5 -c 5 %s > /dev/null\2')" \
-	%{buildroot}%{_sysconfdir}/zonecheck/zc.conf
-	;;
-esac
 
 # "Patching HTML pages" don't work it seems...
-perl -pi -e "s|HTML_PATH|/zonecheck|g" %{buildroot}%{_libdir}/zonecheck/www/html/*.html.*
+perl -pi -e "s|HTML_PATH|/zonecheck|g" \
+    %{buildroot}%{_libdir}/zonecheck/www/html/*.html.*
 
 # install the apache config
-install -d %{buildroot}%{_sysconfdir}/httpd/conf/webapps.d
-install -m0644 www/zonecheck.conf %{buildroot}%{_sysconfdir}/httpd/conf/webapps.d/zonecheck.conf
+install -d %{buildroot}%{_webappconfdir}
+install -m 644 www/zonecheck.conf %{buildroot}%{_webappconfdir}/zonecheck.conf
 
 # cleanup
 rm -f %{buildroot}%{_libdir}/zonecheck/www/zonecheck.conf.in
@@ -95,17 +85,17 @@ rm -f %{buildroot}%{_libdir}/zonecheck/www/zonecheck.conf.in
 rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root,0755)
+%defattr(-,root,root)
 %doc BUGS ChangeLog COPYING CREDITS GPL HISTORY README TODO doc/html
 %config(noreplace) %{_sysconfdir}/zonecheck/rootservers
 %config(noreplace) %{_sysconfdir}/zonecheck/*.profile
-%verify(not size,not md5) %config(noreplace) %{_sysconfdir}/zonecheck/zc.conf
+%config(noreplace) %{_sysconfdir}/zonecheck/zc.conf
 %{_bindir}/*
 %exclude %{_libdir}/zonecheck/www
 %{_libdir}/zonecheck
 %{_mandir}/man1/*
 
 %files www
-%defattr(-,root,root,0755)
-%config(noreplace) %{_sysconfdir}/httpd/conf/webapps.d/zonecheck.conf
+%defattr(-,root,root)
+%config(noreplace) %{_webappconfdir}/zonecheck.conf
 %{_libdir}/zonecheck/www
