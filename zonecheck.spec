@@ -1,11 +1,11 @@
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
-Version:	2.1.0
+Version:	3.0.2
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://www.zonecheck.fr/
-Source0:	http://www.zonecheck.fr/download/src/%{name}-%{version}.tgz
+Source0:	http://www.zonecheck.fr/download/%{name}-%{version}.tgz
 Patch0:		zonecheck-2.0.3-apache2_fix.diff
 BuildRequires:	ruby >= 1.8
 Requires:	ruby >= 1.8
