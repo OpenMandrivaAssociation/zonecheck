@@ -7,8 +7,8 @@ Group:		System/Servers
 URL:		http://www.zonecheck.fr/
 Source0:	http://www.zonecheck.fr/download/%{name}-%{version}.tgz
 Patch0:		zonecheck-2.0.3-apache2_fix.diff
-BuildRequires:	ruby >= 1.8
-Requires:	ruby >= 1.8
+BuildRequires:	ruby 
+Requires:	ruby 
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
