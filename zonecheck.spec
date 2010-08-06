@@ -1,7 +1,7 @@
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
 Version:	3.0.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2+
 Group:		System/Servers
 URL:		http://www.zonecheck.fr/
@@ -90,6 +90,7 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/zonecheck/rootservers
 %config(noreplace) %{_sysconfdir}/zonecheck/*.profile
 %config(noreplace) %{_sysconfdir}/zonecheck/zc.conf
+%dir %{_sysconfdir}/zonecheck/
 %{_bindir}/*
 %exclude %{_libdir}/zonecheck/www
 %{_libdir}/zonecheck
