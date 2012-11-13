@@ -1,0 +1,11 @@
+--- www/zonecheck.conf.in	2003-11-12 16:11:14.000000000 +0100
++++ www/zonecheck.conf.in.oden	2004-10-03 18:25:07.319610949 +0200
+@@ -2,7 +2,7 @@
+ 
+     ScriptAlias @HTML_PATH@/cgi-bin/    @CGIDIR@/
+     <Directory @CGIDIR@/>
+-        Options ExecCGI
++        Options FollowSymLinks ExecCGI
+         Order allow,deny
+         Allow from all
+     </Directory>
