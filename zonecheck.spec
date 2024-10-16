@@ -4,7 +4,7 @@ Version:	3.0.3
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Servers
-URL:		http://www.zonecheck.fr/
+URL:		https://www.zonecheck.fr/
 Source0:	http://www.zonecheck.fr/download/%{name}-%{version}.tgz
 Patch0:		zonecheck-2.0.3-apache2_fix.diff
 BuildRequires:	ruby 
