@@ -1,15 +1,16 @@
+%undefine _debugsource_packages
+
 Summary:	Perform consistency checks on DNS zones
 Name:		zonecheck
-Version:	3.0.3
-Release:	%mkrel 1
+Version:	3.0.5
+Release:	1
 License:	GPLv2+
 Group:		System/Servers
-URL:		https://www.zonecheck.fr/
-Source0:	http://www.zonecheck.fr/download/%{name}-%{version}.tgz
+URL:		https://github.com/mat813/ZoneCheck
+Source0:	https://github.com/mat813/ZoneCheck/archive/refs/heads/master.tar.gz
 Patch0:		zonecheck-2.0.3-apache2_fix.diff
 BuildRequires:	ruby 
 Requires:	ruby 
-BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
 ZoneCheck is intended to help solve DNS misconfigurations or
@@ -32,9 +33,7 @@ Provide a web service interface for ZoneCheck.
 (ZoneCheck is intended to help solve DNS misconfigurations)
 
 %prep
-
-%setup -q -n %{name}
-%patch0 -p0
+%autosetup -p0 -n ZoneCheck-master
 
 %build
 
@@ -71,22 +70,12 @@ install -m 644 www/zonecheck.conf %{buildroot}%{_webappconfdir}/zonecheck.conf
 # cleanup
 rm -f %{buildroot}%{_libdir}/zonecheck/www/zonecheck.conf.in
 
-%post www
-%if %mdkversion < 201010
-%_post_webapp
-%endif
-
-%postun www
-%if %mdkversion < 201010
-%_postun_webapp
-%endif
-
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc BUGS ChangeLog COPYING CREDITS GPL HISTORY README TODO doc/html
+%doc BUGS ChangeLog COPYING CREDITS GPL HISTORY README TODO
 %config(noreplace) %{_sysconfdir}/zonecheck/rootservers
 %config(noreplace) %{_sysconfdir}/zonecheck/*.profile
 %config(noreplace) %{_sysconfdir}/zonecheck/zc.conf
